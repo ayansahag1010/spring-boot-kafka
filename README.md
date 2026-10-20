@@ -1,4 +1,4 @@
-﻿# 📦 Kafka Microservices — Order & Notification System
+# 📦 Kafka Microservices — Order & Notification System
 
 > A production-style Spring Boot microservices project demonstrating **event-driven architecture** using Apache Kafka, REST APIs, MySQL, and Gmail SMTP — built with Java 21 and Spring Boot 4.1.1.
 
@@ -56,7 +56,7 @@ flowchart LR
     A["Client / Postman"] -->|POST /api/orders| B["Order Service port 8081"]
     B -->|Publishes OrderEvent JSON| C["Apache Kafka Topic: order-events"]
     C -->|Consumes OrderEvent| D["Notification Service port 8082"]
-    D -->|GET /api/users/{customerId}| E["User Service port 8080"]
+    D -->|GET /api/users/:customerId| E["User Service port 8080"]
     E -->|SELECT from user_info| F[("MySQL DB: user_info")]
     F -->|User id name email| E
     E -->|UserResponse id name email| D
@@ -141,7 +141,7 @@ sequenceDiagram
 
     K-->>NS: KafkaListener consumes OrderEvent
     NS->>NS: event.getCustomerId()
-    NS->>US: RestClient GET /api/users/{customerId}
+    NS->>US: RestClient GET /api/users/:customerId
     US->>DB: UserRepository.findById
     DB-->>US: User id name email
     US-->>NS: 200 OK UserResponse
